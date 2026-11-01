@@ -875,7 +875,7 @@ static uint8_t read_wave_sample_bus(GB_gameboy_t *gb)
     /* Model the inactive DMG wave bus as pulled high. The held sample changes
        on a sample clock, not immediately on length expiry or retrigger.
        Preserve the existing pending-read behavior if its gate has stopped. */
-    if (gb->model == GB_MODEL_DMG_B && !gb->apu.is_active[GB_WAVE] &&
+    if (!GB_is_cgb(gb) && !gb->apu.is_active[GB_WAVE] &&
         gb->apu.wave_channel.enable && gb->apu.wave_channel.pulsed) {
         return 0xFF;
     }
@@ -2172,7 +2172,7 @@ void GB_apu_write(GB_gameboy_t *gb, uint8_t reg, uint8_t value)
                 }
                 /* DMG retains its phase but stops counting even after length
                    expiry. Only a trigger, not DAC enable, restarts this gate. */
-                if (gb->model == GB_MODEL_DMG_B) {
+                if (!GB_is_cgb(gb)) {
                     gb->apu.noise_background_counter_active = false;
                 }
 
