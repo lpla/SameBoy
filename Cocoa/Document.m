@@ -596,7 +596,14 @@ static unsigned *multiplication_table_for_frequency(unsigned frequency)
     _audioClient = nil;
     self.view.mouseHidingEnabled = false;
     GB_save_battery(&_gb, self.savPath.UTF8String);
-    GB_save_cheats(&_gb, self.chtPath.UTF8String);
+    size_t cheatCount;
+    GB_get_cheats(&_gb, &cheatCount);
+    if (cheatCount) {
+        GB_save_cheats(&_gb, self.chtPath.UTF8String);
+    }
+    else if (self.chtPath) {
+        [[NSFileManager defaultManager] removeItemAtPath:self.chtPath error:nil];
+    }
     unsigned time_to_alarm = GB_time_to_alarm(&_gb);
     
     if (time_to_alarm) {
