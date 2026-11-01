@@ -486,7 +486,7 @@ static void debuggerReloadCallback(GB_gameboy_t *gb)
         
         if (_audioBufferPosition < nFrames) {
             // Not enough audio
-            memset(buffer, 0, (nFrames - _audioBufferPosition) * sizeof(*buffer));
+            memset(buffer + _audioBufferPosition, 0, (nFrames - _audioBufferPosition) * sizeof(*buffer));
             memcpy(buffer, _audioBuffer, _audioBufferPosition * sizeof(*buffer));
             // Do not reset the audio position to avoid more underflows
         }
