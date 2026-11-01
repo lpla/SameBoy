@@ -2155,7 +2155,7 @@ enum GBWindowResizeAction
         case GBMemoryExternalRAM: {
             size_t ram_size;
             GB_get_direct_access(&_gb, GB_DIRECT_ACCESS_CART_RAM, &ram_size, NULL);
-            n_banks = (ram_size + 0x1FFF) / 0x2000;
+            n_banks = MAX(1, (ram_size + 0x1FFF) / 0x2000);
             break;
         }
         case GBMemoryRAM:
